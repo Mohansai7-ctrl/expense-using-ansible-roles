@@ -3,6 +3,12 @@
     name: nginx
     state: present
 
+- name: starting and enabling the nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
+
 - name: downlaoding the code using role common
   ansible.builtin.import_role:
     name: common
