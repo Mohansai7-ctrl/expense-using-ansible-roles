@@ -8,10 +8,9 @@
     name: common
     tasks_from: app-pre-req
 
-- name: expense.conf copying to required path
+- name: copying expense.conf
   ansible.builtin.template:
     src: expense.conf.j2
     dest: /etc/nginx/default.d/expense.conf
-    remote_src: yes
-  notify:
+  notify: #as placing the expense.conf here, it will notify the handler restart_nginx
   - restart_nginx
