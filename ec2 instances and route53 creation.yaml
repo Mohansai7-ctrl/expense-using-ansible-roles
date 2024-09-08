@@ -23,7 +23,7 @@
 
       executable: pip3.9
 
-      
+
   - name: creating ec2_instances
     amazon.aws.ec2_instance:
       name: "{{ item }}"
@@ -64,4 +64,4 @@
       wait: true
       overwrite: true
     loop: "{{ ec2_instances.results }}"
-    when: item.item == "fronend"
+    when: item.item == "frontend"
