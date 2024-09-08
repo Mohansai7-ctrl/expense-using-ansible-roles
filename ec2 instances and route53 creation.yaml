@@ -17,7 +17,7 @@
     amazon.aws.ec2_instance:
       name: "{{ item }}"
       security_group: "{{ sg_id }}"
-      vpc_subnet_id: "{{ sg_id }}"
+      vpc_subnet_id: "{{ subnet_id }}"
       image_id: "{{ ami_id }}"
       instance_type: t3.micro
     loop: "{{ instances }}"
