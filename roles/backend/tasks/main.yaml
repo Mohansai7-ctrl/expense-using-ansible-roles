@@ -1,0 +1,68 @@
+
+- name: Disabling all the nodejs versions by defualt before installing required version
+  ansible.builtin.command: dnf module disable nodejs -y
+
+
+- name: Enabling the required nodejs version 20
+  ansible.builtin.command: dnf module enable nodejs:20 -y
+
+
+- name: Downloading the required application as per the code developed that is nodejs and mysql client to connect to mysql db
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: installed
+  loop: 
+  - nodejs
+  - mysql
+
+- name: creating expense user
+  ansible.builtin.user:
+    name: expense
+
+- name: Downloading the code using common role
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-req
+
+
+- name: now to install required build tool which is npm - nodejs package manager
+  ansible.builtin.command: npm install
+  args:
+    chdir: /app
+
+
+- name: Copying the backend service
+  ansible.builtin.template:
+    src: backend.service.j2
+    dest: /etc/systemd/system/backend.service
+    remote_src: yes
+
+
+- name: Downlaoding pre requisite dependencies packages like PyMySQL and cryptography
+  ansible.builtin.pip:
+    name:
+    - PyMySQL
+    - cryptography
+    executable: pip3.9
+
+
+- name: now importing the mysql_db
+  community.mysql.mysql_db:
+    login_user: root
+    login_password: "{{ login_password }}"
+    login_host: "{{ login_host }}"
+    target: /app/schema/backend.sql
+    name: all
+    state: import
+
+
+- name: "now reloading the daemon and restarting the {{ component }} serive"
+  ansible.builtin.systemd_service:
+    daemon-reload: true
+    name: backend
+    state: restarted
+
+
+
+  
+  

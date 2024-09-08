@@ -1,0 +1,30 @@
+- name: Downloading the mysql-server
+  ansible.builtin.package:
+    name: mysql-server
+    state: present
+
+- name: starting and enabling the mysqld
+  ansible.builtin.service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+
+- name: Downloading prerequisite dependencies which are PyMySQL and cryptography
+  ansible.builtin.pip:
+    name:
+    - PyMySQL
+    - cryptography
+    executable: pip3.9
+
+- name: checking able to connect to mysql_db
+  community.mysql.mysql_info:
+    login_host: "{{ login_host }}"
+    login_password: "{{ login_password }}"
+  ignore_errors: true
+  register: mysql_info
+
+
+- name: Setting up the password for root user to connect to mysql_db
+  ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ login_password }}"
+  when: mysql_info.failed is true #as it is boolean we need to use is
