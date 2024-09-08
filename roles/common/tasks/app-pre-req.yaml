@@ -13,4 +13,5 @@
 - name: Downloading the code into required path
   ansible.builtin.unarchive:
     src: "https://expense-builds.s3.us-east-1.amazonaws.com/expense-{{ component }}-v2.zip"
-    dest: "{{ DEST_PATH }}"
+    dest: "{{ app_location }}"
+    remote_src: yes
