@@ -18,5 +18,6 @@
   ansible.builtin.template:
     src: expense.conf.j2
     dest: /etc/nginx/default.d/expense.conf
+    remote_src: yes
   notify: #as placing the expense.conf here, it will notify the handler restart_nginx
   - restart_nginx
