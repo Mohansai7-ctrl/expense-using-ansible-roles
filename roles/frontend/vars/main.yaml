@@ -2,7 +2,7 @@ app_location: /usr/share/nginx/html
 component: frontend
 login_user: root
 login_password: "ExpenseApp@1"
-login_host: "mysql.mohansai.online"
 
-BACKEND_HOST: "backend.mohansai.online"
+
+BACKEND_HOST: backend.mohansai.online
 
