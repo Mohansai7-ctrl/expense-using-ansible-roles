@@ -4,4 +4,4 @@ component: backend
 login_host: mysql.mohansai.online
 login_password: ExpenseApp@1
 
-MYSQL_HOST: " mysql.mohansai.online "
+
